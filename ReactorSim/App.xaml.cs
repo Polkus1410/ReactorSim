@@ -8,10 +8,7 @@ namespace ReactorSim
         {
             InitializeComponent();
 
-            var s = serviceProvider.GetRequiredService<EntitysList>();
-
-
-            MainPage = new MainPageView(s);
+            MainPage = new AppShell();
         }
     }
 }

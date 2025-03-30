@@ -21,15 +21,24 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <GraphicsView Drawable="{StaticResource drawable}"
-                      x:Name="SimulationGraphicsView"
-                      BackgroundColor="White"
-                      Grid.Column="0"
-                      Grid.Row="0"
-                      Grid.RowSpan="6"/>
+                  x:Name="SimulationGraphicsView"
+                  BackgroundColor="White"
+                  Grid.Column="0"
+                  Grid.Row="0"
+                  Grid.RowSpan="6"/>
+        <StackLayout Orientation="Vertical"
+                 HorizontalOptions="Center"
+                 Grid.Column="1"
+                 Grid.Row="3">
+            <Label Text="Power (number of neutrons):"
+             TextColor="Black"/>
+            <Label Text="{Binding NeutronCount}"
+             TextColor="Black"/>
+        </StackLayout>
     </Grid>
 </ContentPage>

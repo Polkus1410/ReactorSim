@@ -1,34 +1,48 @@
 ﻿using ReactorSim.Models;
-using System.Runtime.CompilerServices;
-using System.Timers;
+using ReactorSim.ViewModels;
 
 namespace ReactorSim
 {
     public partial class MainPageView : ContentPage
     {
-        public MainPageView(EntitysList entitysList)
+
+        private MainPageViewModel _viewModel;
+        public MainPageView(EntitysList entitysList, MainPageViewModel vm)
         {
             InitializeComponent();
+            _viewModel = vm;
+            BindingContext = vm;
 
-            //BindingContext = entitysList;
+            vm.GenerateStartingSetup();
 
-            entitysList.neutronList.Add(new Neutron(100, 100, 0, 0, false));
+            // Pobieramy instancję SimulationDrawable z zasobów (zgodnie z kluczem "drawable" w XAML)
+            if (Resources.TryGetValue("drawable", out object drawableObj) && drawableObj is Views.SimulationDrawable drawable)
+            {
+                drawable.EntitysList = entitysList;
+            }
 
+            //MAIN LOOP
             var timer = new System.Timers.Timer(20);
-            timer.Elapsed += new ElapsedEventHandler(RedrawSimulation);
+            timer.Elapsed += (sender, e) =>
+            {
+                vm.SimulationUpdate();
+                RedrawSimulation();
+            };
             timer.Start();
         }
 
-        public void RedrawSimulation(object source, ElapsedEventArgs e)
+        private void RedrawSimulation()
         {
-            var graphicsView = this.SimulationGraphicsView;
             try
             {
-                if (graphicsView != null) graphicsView.Invalidate();
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    SimulationGraphicsView.Invalidate();
+                });
             }
             catch (Exception ex)
             {
-                DisplayAlert("Error", $"{ex.Message}", "Ok");
+                Console.WriteLine(ex);
             }
         }
     }
