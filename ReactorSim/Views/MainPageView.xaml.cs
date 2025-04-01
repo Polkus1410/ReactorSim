@@ -13,13 +13,16 @@ namespace ReactorSim
             _viewModel = vm;
             BindingContext = vm;
 
-            vm.GenerateStartingSetup();
-
             // Pobieramy instancję SimulationDrawable z zasobów (zgodnie z kluczem "drawable" w XAML)
             if (Resources.TryGetValue("drawable", out object drawableObj) && drawableObj is Views.SimulationDrawable drawable)
             {
-                drawable.EntitysList = entitysList;
+              drawable.EntitysList = entitysList;
             }
+
+            vm.GenerateStartingSetup();
+            RedrawSimulation();
+
+
 
             //MAIN LOOP
             var timer = new System.Timers.Timer(20);

@@ -26,6 +26,7 @@ namespace ReactorSim
                         WindowId win32WindowsId = Win32Interop.GetWindowIdFromWindow(nativeWindowHandle);
                         AppWindow winuiAppWindow = AppWindow.GetFromWindowId(win32WindowsId);
                         winuiAppWindow.SetPresenter(AppWindowPresenterKind.FullScreen);
+                        winuiAppWindow.SetPresenter(AppWindowPresenterKind.FullScreen);
                     });
                 });
             });

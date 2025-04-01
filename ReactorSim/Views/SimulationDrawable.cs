@@ -9,13 +9,13 @@ namespace ReactorSim.Views
 
         public void Draw(ICanvas canvas, RectF simBorder)
         {
-
             /*------------------DRAWING SIMULATION BORDERS------------------*/
             canvas.StrokeColor = Colors.Aqua;
             canvas.StrokeSize = 2;
-            //canvas.DrawRectangle(0, 0, 800, 600);
+            EntitysList.simulationBorders = simBorder;
             canvas.DrawRectangle(simBorder);
-
+            
+            
 
 
             /*------------------DRAWING NEUTRONS------------------*/
@@ -23,17 +23,16 @@ namespace ReactorSim.Views
             {
                 Neutron neutron = EntitysList.neutronList[i];
                 canvas.StrokeColor = Colors.Black;
+                canvas.StrokeSize = 1;
                 if (neutron.isFast)
                 {
                     canvas.FillColor = Colors.White;
-                    canvas.StrokeSize = 1;
                     canvas.FillCircle(neutron.x_pos, neutron.y_pos, 3);
                     canvas.DrawCircle(neutron.x_pos, neutron.y_pos, 3);
                 }
                 else
                 {
                     canvas.FillColor = Colors.Black;
-                    canvas.StrokeSize = 3;
                     canvas.FillCircle(neutron.x_pos, neutron.y_pos, 3);
                 }
             }

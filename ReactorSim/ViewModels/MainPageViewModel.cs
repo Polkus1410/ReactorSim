@@ -53,10 +53,12 @@ namespace ReactorSim.ViewModels
 
     private void NeutronsColison()
     {
+      //Check if neutron is out of borders
+      RectF rectF = entitysList.simulationBorders;
       for (int i = 0; i < entitysList.neutronList.Count; i++)
       {
         Neutron neutron = entitysList.neutronList[i];
-        if (neutron.x_pos < 0 || neutron.x_pos > 800 || neutron.y_pos < 0 || neutron.y_pos > 600)
+        if (!rectF.Contains(neutron.x_pos, neutron.y_pos))
         {
           entitysList.neutronList.RemoveAt(i);
         }
