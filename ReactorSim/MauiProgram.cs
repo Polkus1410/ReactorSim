@@ -25,15 +25,14 @@ namespace ReactorSim
                         IntPtr nativeWindowHandle = WinRT.Interop.WindowNative.GetWindowHandle(window);
                         WindowId win32WindowsId = Win32Interop.GetWindowIdFromWindow(nativeWindowHandle);
                         AppWindow winuiAppWindow = AppWindow.GetFromWindowId(win32WindowsId);
-                        if(winuiAppWindow.Presenter is OverlappedPresenter p)
-                            p.Maximize();
+                        winuiAppWindow.SetPresenter(AppWindowPresenterKind.FullScreen);
                     });
                 });
             });
 #endif
 
-            builder
-                .UseMauiApp<App>()
+      builder
+          .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
