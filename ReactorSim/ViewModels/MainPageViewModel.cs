@@ -22,6 +22,7 @@ namespace ReactorSim.ViewModels
     {
       GetWindowSize();
       GenerateNeutrons(40);
+      GenerateCells();
       entitysList.simulationBorder = _simulationBorder;
     }
     private async void GetWindowSize()
@@ -43,12 +44,41 @@ namespace ReactorSim.ViewModels
     {
       for (int i = 0; i < neutronCount; i++)
       {
-        entitysList.neutronList.Add(new Neutron(rnd.Next(50, (int)_simulationBorder.Width-50), rnd.Next(50, (int)_simulationBorder.Height-50), 2, (float)(Math.PI/180) * 90 /*rnd.Next(0, 360)*/, false));
+        entitysList.neutronList.Add(new Neutron(rnd.Next(50, (int)_simulationBorder.Width-50), rnd.Next(50, (int)_simulationBorder.Height-50), 2, (float)(Math.PI/180) * rnd.Next(0, 360), false));
       }
     }
     private void GenerateCells()
     {
+      float cellSpacing;
 
+      float horizontalDif = _simulationBorder.Width / 40;
+      float verticalDif = _simulationBorder.Height / 25;
+
+      if (horizontalDif < verticalDif)
+      {
+        cellSpacing = horizontalDif;
+      }
+      else
+      {
+        cellSpacing = verticalDif;
+      }
+
+      for (int i = 0; i < 40; i++)
+      {
+        for (int j = 0; j < 25; j++)
+        {
+          if(rnd.Next(1,100) <= 50)
+          {
+            entitysList.cellList.Add(new ReactorSim.Models.Cell(i * cellSpacing, j * cellSpacing, false, false));
+          }
+          else
+          {
+            entitysList.cellList.Add(new ReactorSim.Models.Cell(i * cellSpacing, j * cellSpacing, true, false));
+          }
+        }
+      }
+
+      entitysList.cellSpacing = cellSpacing;
     }
 
 
@@ -70,7 +100,6 @@ namespace ReactorSim.ViewModels
         neutron.y_pos += (float)Math.Sin(neutron.direction) * neutron.velocity;
       }
     }
-
     private void NeutronsColison()
     {
       for (int i = 0; i < entitysList.neutronList.Count; i++)
