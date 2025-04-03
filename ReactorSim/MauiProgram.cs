@@ -31,7 +31,7 @@ namespace ReactorSim
                 });
             });
 #endif
-
+      
       builder
           .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>
