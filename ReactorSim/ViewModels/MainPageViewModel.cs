@@ -22,6 +22,7 @@ namespace ReactorSim.ViewModels
     {
       GetWindowSize();
       GenerateNeutrons(40);
+      entitysList.simulationBorder = _simulationBorder;
     }
     private async void GetWindowSize()
     {
@@ -42,10 +43,10 @@ namespace ReactorSim.ViewModels
     {
       for (int i = 0; i < neutronCount; i++)
       {
-        entitysList.neutronList.Add(new Neutron(rnd.Next(50, (int)_simulationBorder.Width-50), rnd.Next(50, (int)_simulationBorder.Height-50), 2, (float)(Math.PI/180) * rnd.Next(0, 360), false));
+        entitysList.neutronList.Add(new Neutron(rnd.Next(50, (int)_simulationBorder.Width-50), rnd.Next(50, (int)_simulationBorder.Height-50), 2, (float)(Math.PI/180) * 90 /*rnd.Next(0, 360)*/, false));
       }
     }
-    private void GenerateFields()
+    private void GenerateCells()
     {
 
     }

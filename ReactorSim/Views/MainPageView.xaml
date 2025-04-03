@@ -4,41 +4,53 @@
              xmlns:drawable="clr-namespace:ReactorSim.Views"
              x:Class="ReactorSim.MainPageView">
 
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <drawable:SimulationDrawable x:Key="drawable"/>
-        </ResourceDictionary>
-    </ContentPage.Resources>
+  <ContentPage.Resources>
+    <ResourceDictionary>
+      <drawable:SimulationDrawable x:Key="drawable"/>
+    </ResourceDictionary>
+  </ContentPage.Resources>
 
-    <Grid BackgroundColor="White">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+  <Grid BackgroundColor="White">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="2*"/>
+      <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
 
-        <GraphicsView Drawable="{StaticResource drawable}"
+    <GraphicsView Drawable="{StaticResource drawable}"
                   x:Name="SimulationGraphicsView"
-                  BackgroundColor="White"
                   Grid.Column="0"
                   Grid.Row="0"
                   Grid.RowSpan="6"/>
-        <StackLayout Orientation="Vertical"
-                 HorizontalOptions="Center"
-                 Grid.Column="1"
-                 Grid.Row="3">
-            <Label Text="Power (number of neutrons):"
-             TextColor="Black"/>
-            <Label Text="{Binding NeutronCount}"
-             TextColor="Black"/>
-        </StackLayout>
-    </Grid>
+
+
+    <StackLayout Orientation="Horizontal"
+                 Grid.Column="0"
+                 Grid.Row="6">
+      <Label
+        Text="Test"
+        FontSize="Title"
+        TextColor="Black"
+        HorizontalOptions="Center"
+        VerticalOptions="Center"/>
+    </StackLayout>
+
+    <StackLayout Orientation="Vertical"
+                HorizontalOptions="Center"
+                Grid.Column="1"
+                Grid.Row="3">
+      <Label Text="Power (number of neutrons):"
+            TextColor="Black"/>
+      <Label Text="{Binding NeutronCount}"
+            TextColor="Black"/>
+    </StackLayout>
+  </Grid>
 </ContentPage>

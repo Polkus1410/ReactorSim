@@ -12,10 +12,7 @@ namespace ReactorSim.Views
             /*------------------DRAWING SIMULATION BORDERS------------------*/
             canvas.StrokeColor = Colors.Aqua;
             canvas.StrokeSize = 2;
-            //EntitysList.simulationBorders = simBorder;
-            canvas.DrawRectangle(simBorder);
-            
-            
+            canvas.DrawRectangle(EntitysList.simulationBorder.X, EntitysList.simulationBorder.Y, EntitysList.simulationBorder.Width, EntitysList.simulationBorder.Height);
 
 
             /*------------------DRAWING NEUTRONS------------------*/
