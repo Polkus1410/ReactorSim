@@ -23,7 +23,7 @@ namespace ReactorSim.ViewModels
       GetWindowSize();
       GenerateNeutrons(40);
     }
-    public async void GetWindowSize()
+    private async void GetWindowSize()
     {
       await MainThread.InvokeOnMainThreadAsync(() =>
       {
@@ -44,6 +44,10 @@ namespace ReactorSim.ViewModels
       {
         entitysList.neutronList.Add(new Neutron(rnd.Next(50, (int)_simulationBorder.Width-50), rnd.Next(50, (int)_simulationBorder.Height-50), 2, (float)(Math.PI/180) * rnd.Next(0, 360), false));
       }
+    }
+    private void GenerateFields()
+    {
+
     }
 
 
