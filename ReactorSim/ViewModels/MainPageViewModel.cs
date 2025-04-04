@@ -21,7 +21,7 @@ namespace ReactorSim.ViewModels
     public void GenerateStartingSetup() 
     {
       GetWindowSize();
-      GenerateNeutrons(40);
+      GenerateNeutrons(20);
       GenerateCells();
       entitysList.simulationBorder = _simulationBorder;
     }
@@ -44,7 +44,7 @@ namespace ReactorSim.ViewModels
     {
       for (int i = 0; i < neutronCount; i++)
       {
-        entitysList.neutronList.Add(new Neutron(rnd.Next(50, (int)_simulationBorder.Width-50), rnd.Next(50, (int)_simulationBorder.Height-50), 2, (float)(Math.PI/180) * rnd.Next(0, 360), false));
+        entitysList.neutronList.Add(new Neutron(rnd.Next(50, (int)_simulationBorder.Width-50), rnd.Next(50, (int)_simulationBorder.Height-50), 1, (float)(Math.PI/180) * rnd.Next(0, 360), false));
       }
     }
     private void GenerateCells()
@@ -111,10 +111,35 @@ namespace ReactorSim.ViewModels
         {
           entitysList.neutronList.RemoveAt(i);
         }
+        else
+        {
+          //Check if neutron is colidning with uranium or xenon
+          int x = (int)(neutron.x_pos / entitysList.cellSpacing);
+          int y = (int)(neutron.y_pos / entitysList.cellSpacing);
+          if(x >= 0 && x < 40 && y >= 0 && y < 25)
+          {
+            if (Math.Sqrt(Math.Pow((x * entitysList.cellSpacing - neutron.x_pos), 2) + Math.Pow((y * entitysList.cellSpacing - neutron.y_pos), 2)) < entitysList.cellSpacing / 3)
+            {
+              //if the neutron is coliding with uranium
+              if (entitysList.cellMatrix[x, y].isUranium)
+              {
+                if (!neutron.isFast)
+                {
+                  entitysList.neutronList.RemoveAt(i);
+                  entitysList.cellMatrix[x, y].isUranium = false;
 
-        //Check if neutron is colidning with uranium
-
+                  for (int j = 0; j < 3; j++)
+                  {
+                    entitysList.neutronList.Add(new Neutron(x * entitysList.cellSpacing, y * entitysList.cellSpacing, 2, (float)(Math.PI / 180) * rnd.Next(0, 360), true));
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
+
+
   }
 }
