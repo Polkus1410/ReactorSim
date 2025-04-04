@@ -16,23 +16,26 @@ namespace ReactorSim.Views
 
 
       /*------------------DRAWING CELLS------------------*/
-      for (int i = 0; i < EntitysList.cellList.Count; i++)
+      for(int i = 0; i < 40; i++)
       {
-        ReactorSim.Models.Cell cell = EntitysList.cellList[i];
-        if (cell.isUranium)
+        for (int j = 0; j < 25; j++)
         {
-          canvas.FillColor = Colors.Blue;
-          canvas.FillRectangle(cell.x_pos, cell.y_pos, EntitysList.cellSpacing, EntitysList.cellSpacing);
-        }
-        else if (cell.isXenon)
-        {
-          canvas.FillColor = Colors.Black;
-          canvas.FillRectangle(cell.x_pos, cell.y_pos, EntitysList.cellSpacing, EntitysList.cellSpacing);
-        }
-        else
-        {
-          canvas.FillColor = Colors.White;
-          canvas.FillRectangle(cell.x_pos, cell.y_pos, EntitysList.cellSpacing, EntitysList.cellSpacing);
+          ReactorSim.Models.Cell cell = EntitysList.cellMatrix[i, j];
+
+          if (cell.isUranium)
+          {
+            canvas.FillColor = new Color(56, 119, 255);
+          }
+          else if (cell.isXenon)
+          {
+            canvas.FillColor = Colors.Black;
+          }
+          else
+          {
+            canvas.FillColor = Colors.LightGray;
+          }
+
+          canvas.FillCircle(i * EntitysList.cellSpacing + (EntitysList.cellSpacing / 2), j * EntitysList.cellSpacing + (EntitysList.cellSpacing / 2), EntitysList.cellSpacing / 4);
         }
       }
 

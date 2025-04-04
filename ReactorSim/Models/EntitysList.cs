@@ -3,7 +3,7 @@
   public class EntitysList
   {
     public float cellSpacing = 0;
-    public List<Cell> cellList = new List<Cell>();
+    public Cell[,] cellMatrix = new Cell[40, 25];
 
     public List<Neutron> neutronList = new List<Neutron>();
 

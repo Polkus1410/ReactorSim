@@ -67,13 +67,13 @@ namespace ReactorSim.ViewModels
       {
         for (int j = 0; j < 25; j++)
         {
-          if(rnd.Next(1,100) <= 50)
+          if(rnd.Next(1,100) <= 30)
           {
-            entitysList.cellList.Add(new ReactorSim.Models.Cell(i * cellSpacing, j * cellSpacing, false, false));
+            entitysList.cellMatrix[i, j] = new ReactorSim.Models.Cell(true, false);
           }
           else
           {
-            entitysList.cellList.Add(new ReactorSim.Models.Cell(i * cellSpacing, j * cellSpacing, true, false));
+            entitysList.cellMatrix[i, j] = new ReactorSim.Models.Cell(false, false);
           }
         }
       }
@@ -105,10 +105,15 @@ namespace ReactorSim.ViewModels
       for (int i = 0; i < entitysList.neutronList.Count; i++)
       {
         Neutron neutron = entitysList.neutronList[i];
+
+        //Check if neutron is in the simulation area
         if (!_simulationBorder.Contains(neutron.x_pos, neutron.y_pos))
         {
           entitysList.neutronList.RemoveAt(i);
         }
+
+        //Check if neutron is colidning with uranium
+
       }
     }
   }
