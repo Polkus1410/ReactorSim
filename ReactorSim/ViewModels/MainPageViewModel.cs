@@ -21,7 +21,7 @@ namespace ReactorSim.ViewModels
     public void GenerateStartingSetup() 
     {
       GetWindowSize();
-      GenerateNeutrons(10);
+      GenerateNeutrons(20);
       GenerateCells();
       entitysList.simulationBorder = _simulationBorder;
     }
@@ -44,7 +44,7 @@ namespace ReactorSim.ViewModels
     {
       for (int i = 0; i < neutronCount; i++)
       {
-        entitysList.neutronList.Add(new Neutron(rnd.Next(50, (int)_simulationBorder.Width-50), rnd.Next(50, (int)_simulationBorder.Height-50), 1, (float)(Math.PI/180) * rnd.Next(0, 360), false));
+        entitysList.neutronList.Add(new Neutron(rnd.Next(50, (int)_simulationBorder.Width-50), rnd.Next(50, (int)_simulationBorder.Height-50), 1.5f, (float)(Math.PI/180) * rnd.Next(0, 360), false));
       }
     }
     private void GenerateCells()
@@ -88,6 +88,7 @@ namespace ReactorSim.ViewModels
     {
       MoveNeutrons();
       NeutronsColison();
+      NeutronUpdate();
       NeutronCount = entitysList.neutronList.Count;
     }
 
@@ -118,6 +119,7 @@ namespace ReactorSim.ViewModels
           float offsetNeutronY = (float)(neutron.y_pos - (entitysList.cellSpacing / 2));
           int x = (int)Math.Round(offsetNeutronX / entitysList.cellSpacing);
           int y = (int)Math.Round(offsetNeutronY / entitysList.cellSpacing);
+          
           if(x >= 0 && x < 40 && y >= 0 && y < 25)
           {
             double a = Math.Sqrt(Math.Pow((x * entitysList.cellSpacing - offsetNeutronX), 2) + Math.Pow((y * entitysList.cellSpacing - offsetNeutronY), 2));
@@ -133,16 +135,44 @@ namespace ReactorSim.ViewModels
 
                   for (int j = 0; j < 3; j++)
                   {
-                    entitysList.neutronList.Add(new Neutron(x * entitysList.cellSpacing + (entitysList.cellSpacing / 2), y * entitysList.cellSpacing + (entitysList.cellSpacing / 2), 1, (float)(Math.PI / 180) * rnd.Next(0, 360), false));
+                    entitysList.neutronList.Add(new Neutron(x * entitysList.cellSpacing + (entitysList.cellSpacing / 2), y * entitysList.cellSpacing + (entitysList.cellSpacing / 2), 3f, (float)(Math.PI / 180) * rnd.Next(0, 360), true));
                   }
                 }
               }
+              //if the neutron is coliding with xenon
+              else if(entitysList.cellMatrix[x, y].isXenon)
+              {
+                entitysList.neutronList.RemoveAt(i);
+                entitysList.cellMatrix[x, y].isXenon = false;
+              }
+            }
+
+            //Water temperature
+            if (entitysList.cellMatrix[x, y].waterTemp < 100)
+            {
+              entitysList.cellMatrix[x, y].waterTemp += 1;
+              neutron.distanceTravelled += neutron.velocity;
             }
           }
         }
       }
     }
-
-
+    private void NeutronUpdate()
+    {
+      for (int i = 0; i < entitysList.neutronList.Count; i++)
+      {
+        Neutron neutron = entitysList.neutronList[i];
+        if(neutron.isFast && neutron.distanceTravelled > 150)
+        {
+          neutron.distanceTravelled = 0;
+          neutron.velocity = 1.5f;
+          neutron.isFast = false;
+        }
+        else if(!neutron.isFast && neutron.distanceTravelled > 150)
+        {
+          entitysList.neutronList.RemoveAt(i);
+        }
+      }
+    }
   }
 }

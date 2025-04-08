@@ -22,6 +22,10 @@ namespace ReactorSim.Views
         {
           ReactorSim.Models.Cell cell = EntitysList.cellMatrix[i, j];
 
+          if (cell.waterTemp < 100)
+          {
+          }
+
           if (cell.isUranium)
           {
             canvas.FillColor = new Color(56, 119, 255);
