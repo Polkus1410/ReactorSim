@@ -25,7 +25,7 @@ namespace ReactorSim
 
 
             //MAIN LOOP
-            var timer = new System.Timers.Timer(20);
+            var timer = new System.Timers.Timer(15);
             timer.Elapsed += (sender, e) =>
             {
                 vm.SimulationUpdate();

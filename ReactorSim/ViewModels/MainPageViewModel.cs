@@ -21,7 +21,7 @@ namespace ReactorSim.ViewModels
     public void GenerateStartingSetup() 
     {
       GetWindowSize();
-      GenerateNeutrons(20);
+      GenerateNeutrons(10);
       GenerateCells();
       entitysList.simulationBorder = _simulationBorder;
     }
@@ -114,11 +114,14 @@ namespace ReactorSim.ViewModels
         else
         {
           //Check if neutron is colidning with uranium or xenon
-          int x = (int)(neutron.x_pos / entitysList.cellSpacing);
-          int y = (int)(neutron.y_pos / entitysList.cellSpacing);
+          float offsetNeutronX = (float)(neutron.x_pos - (entitysList.cellSpacing / 2));
+          float offsetNeutronY = (float)(neutron.y_pos - (entitysList.cellSpacing / 2));
+          int x = (int)Math.Round(offsetNeutronX / entitysList.cellSpacing);
+          int y = (int)Math.Round(offsetNeutronY / entitysList.cellSpacing);
           if(x >= 0 && x < 40 && y >= 0 && y < 25)
           {
-            if (Math.Sqrt(Math.Pow((x * entitysList.cellSpacing - neutron.x_pos), 2) + Math.Pow((y * entitysList.cellSpacing - neutron.y_pos), 2)) < entitysList.cellSpacing / 3)
+            double a = Math.Sqrt(Math.Pow((x * entitysList.cellSpacing - offsetNeutronX), 2) + Math.Pow((y * entitysList.cellSpacing - offsetNeutronY), 2));
+            if (a <= entitysList.cellSpacing / 4)
             {
               //if the neutron is coliding with uranium
               if (entitysList.cellMatrix[x, y].isUranium)
@@ -130,7 +133,7 @@ namespace ReactorSim.ViewModels
 
                   for (int j = 0; j < 3; j++)
                   {
-                    entitysList.neutronList.Add(new Neutron(x * entitysList.cellSpacing, y * entitysList.cellSpacing, 2, (float)(Math.PI / 180) * rnd.Next(0, 360), true));
+                    entitysList.neutronList.Add(new Neutron(x * entitysList.cellSpacing + (entitysList.cellSpacing / 2), y * entitysList.cellSpacing + (entitysList.cellSpacing / 2), 1, (float)(Math.PI / 180) * rnd.Next(0, 360), false));
                   }
                 }
               }

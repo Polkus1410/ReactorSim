@@ -35,9 +35,11 @@ namespace ReactorSim.Views
             canvas.FillColor = Colors.LightGray;
           }
 
-          canvas.FillCircle(i * EntitysList.cellSpacing/* + (EntitysList.cellSpacing / 2)*/, j * EntitysList.cellSpacing/* + (EntitysList.cellSpacing / 2)*/, EntitysList.cellSpacing / 4);
+          canvas.FillCircle(i * EntitysList.cellSpacing + (EntitysList.cellSpacing / 2), j * EntitysList.cellSpacing + (EntitysList.cellSpacing / 2), EntitysList.cellSpacing / 4);
         }
       }
+
+
 
       /*------------------DRAWING NEUTRONS------------------*/
       for (int i = 0; i < EntitysList.neutronList.Count; i++)
