@@ -150,7 +150,7 @@ namespace ReactorSim.ViewModels
             //Water temperature
             if (entitysList.cellMatrix[x, y].waterTemp < 100)
             {
-              entitysList.cellMatrix[x, y].waterTemp += 1;
+              entitysList.cellMatrix[x, y].waterTemp += 0.5f;
               neutron.distanceTravelled += neutron.velocity;
             }
           }

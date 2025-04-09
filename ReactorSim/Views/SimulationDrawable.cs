@@ -22,8 +22,18 @@ namespace ReactorSim.Views
         {
           ReactorSim.Models.Cell cell = EntitysList.cellMatrix[i, j];
 
-          if (cell.waterTemp < 100)
+          float temp = cell.waterTemp - 20;
+          if (temp < 80)
           {
+            if(temp <= 12)
+            {
+              canvas.FillColor = new Color((int)(225 + (temp * 2.5)), 225, 225);
+            }
+            else
+            {
+              canvas.FillColor = new Color(255, (int)(255 - (temp * 2.5)), (int)(255 - (temp * 2.5)));
+            }
+            canvas.FillRectangle(i * EntitysList.cellSpacing, j * EntitysList.cellSpacing, EntitysList.cellSpacing, EntitysList.cellSpacing);
           }
 
           if (cell.isUranium)
