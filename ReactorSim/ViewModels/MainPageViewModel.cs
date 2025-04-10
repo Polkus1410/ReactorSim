@@ -21,7 +21,7 @@ namespace ReactorSim.ViewModels
     public void GenerateStartingSetup() 
     {
       GetWindowSize();
-      GenerateNeutrons(20);
+      //GenerateNeutrons(20);
       GenerateCells();
       entitysList.simulationBorder = _simulationBorder;
     }
@@ -44,7 +44,7 @@ namespace ReactorSim.ViewModels
     {
       for (int i = 0; i < neutronCount; i++)
       {
-        entitysList.neutronList.Add(new Neutron(rnd.Next(50, (int)_simulationBorder.Width-50), rnd.Next(50, (int)_simulationBorder.Height-50), 1.5f, (float)(Math.PI/180) * rnd.Next(0, 360), false));
+        entitysList.neutronList.Add(new Neutron(rnd.Next(50, (int)_simulationBorder.Width-50), rnd.Next(50, (int)_simulationBorder.Height-50), 1.5f, (float)(Math.PI/180) * rnd.Next(0, 360), true));
       }
     }
     private void GenerateCells()
@@ -84,14 +84,16 @@ namespace ReactorSim.ViewModels
 
 
     /*-----------------------------SIMULATION----------------------------*/
+    int neutronGenCountDown = 50;
     public void SimulationUpdate()
     {
       MoveNeutrons();
       NeutronsColison();
       NeutronUpdate();
       NeutronCount = entitysList.neutronList.Count;
+      
+      CellUpdate();
     }
-
     private void MoveNeutrons()
     {
       for (int i = 0; i < entitysList.neutronList.Count; i++)
@@ -132,10 +134,11 @@ namespace ReactorSim.ViewModels
                 {
                   entitysList.neutronList.RemoveAt(i);
                   entitysList.cellMatrix[x, y].isUranium = false;
+                  entitysList.cellMatrix[x, y].xenonCountDown = 20;
 
                   for (int j = 0; j < 3; j++)
                   {
-                    entitysList.neutronList.Add(new Neutron(x * entitysList.cellSpacing + (entitysList.cellSpacing / 2), y * entitysList.cellSpacing + (entitysList.cellSpacing / 2), 3f, (float)(Math.PI / 180) * rnd.Next(0, 360), true));
+                    entitysList.neutronList.Add(new Neutron(x * entitysList.cellSpacing + (entitysList.cellSpacing / 2), y * entitysList.cellSpacing + (entitysList.cellSpacing / 2), 3, (float)(Math.PI / 180) * rnd.Next(0, 360), true));
                   }
                 }
               }
@@ -171,6 +174,47 @@ namespace ReactorSim.ViewModels
         else if(!neutron.isFast && neutron.distanceTravelled > 150)
         {
           entitysList.neutronList.RemoveAt(i);
+        }
+      }
+    }
+    private void CellUpdate()
+    {
+      for (int i = 0; i < 40; i++)
+      {
+        for (int j = 0; j < 25; j++)
+        {
+          int random = rnd.Next(1, 2000);
+          ReactorSim.Models.Cell cell = entitysList.cellMatrix[i, j];
+
+
+
+          if (cell.xenonCountDown > 0)
+          {
+            cell.xenonCountDown--;
+            if (cell.xenonCountDown == 0)
+            {
+              if (random > 1500)
+                cell.isXenon = true;
+            }
+          }
+          else if (!cell.isUranium && !cell.isXenon)
+          {
+            //Replenishing uranium
+            if(random == 1)
+            {
+              cell.isUranium = true;
+            }
+            //Passive neutron generation
+            else if (random == 2)
+            { 
+              entitysList.neutronList.Add(new Neutron(i * entitysList.cellSpacing, j * entitysList.cellSpacing, 3, (float)(Math.PI / 180) * rnd.Next(0, 360), true));
+            }
+          }
+
+          if (cell.waterTemp > 20)
+          {
+            cell.waterTemp -= 0.2f;
+          }
         }
       }
     }
