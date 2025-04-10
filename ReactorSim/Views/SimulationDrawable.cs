@@ -64,13 +64,13 @@ namespace ReactorSim.Views
         if (neutron.isFast)
         {
           canvas.FillColor = Colors.White;
-          canvas.FillCircle(neutron.x_pos, neutron.y_pos, 3);
-          canvas.DrawCircle(neutron.x_pos, neutron.y_pos, 3);
+          canvas.FillCircle(neutron.x_pos, neutron.y_pos, EntitysList.cellSpacing / 10);
+          canvas.DrawCircle(neutron.x_pos, neutron.y_pos, EntitysList.cellSpacing / 10);
         }
         else
         {
           canvas.FillColor = Colors.Black;
-          canvas.FillCircle(neutron.x_pos, neutron.y_pos, 3);
+          canvas.FillCircle(neutron.x_pos, neutron.y_pos, EntitysList.cellSpacing / 10);
         }
       }
     }

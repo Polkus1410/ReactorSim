@@ -99,8 +99,8 @@ namespace ReactorSim.ViewModels
       for (int i = 0; i < entitysList.neutronList.Count; i++)
       {
         Neutron neutron = entitysList.neutronList[i];
-        neutron.x_pos += (float)Math.Cos(neutron.direction) * neutron.velocity;
-        neutron.y_pos += (float)Math.Sin(neutron.direction) * neutron.velocity;
+        neutron.x_pos += (float)Math.Cos(neutron.direction) * neutron.velocity * entitysList.cellSpacing / 38;
+        neutron.y_pos += (float)Math.Sin(neutron.direction) * neutron.velocity * entitysList.cellSpacing / 38;
       }
     }
     private void NeutronsColison()
@@ -134,7 +134,7 @@ namespace ReactorSim.ViewModels
                 {
                   entitysList.neutronList.RemoveAt(i);
                   entitysList.cellMatrix[x, y].isUranium = false;
-                  entitysList.cellMatrix[x, y].xenonCountDown = 20;
+                  entitysList.cellMatrix[x, y].xenonCountDown = 50;
 
                   for (int j = 0; j < 3; j++)
                   {
@@ -145,8 +145,11 @@ namespace ReactorSim.ViewModels
               //if the neutron is coliding with xenon
               else if(entitysList.cellMatrix[x, y].isXenon)
               {
-                entitysList.neutronList.RemoveAt(i);
-                entitysList.cellMatrix[x, y].isXenon = false;
+                if (!neutron.isFast)
+                {
+                  entitysList.neutronList.RemoveAt(i);
+                  entitysList.cellMatrix[x, y].isXenon = false;
+                }
               }
             }
 
@@ -183,7 +186,7 @@ namespace ReactorSim.ViewModels
       {
         for (int j = 0; j < 25; j++)
         {
-          int random = rnd.Next(1, 2000);
+          int random = rnd.Next(1, 10000);
           ReactorSim.Models.Cell cell = entitysList.cellMatrix[i, j];
 
 
@@ -193,19 +196,19 @@ namespace ReactorSim.ViewModels
             cell.xenonCountDown--;
             if (cell.xenonCountDown == 0)
             {
-              if (random > 1500)
+              if (random > 7500)
                 cell.isXenon = true;
             }
           }
           else if (!cell.isUranium && !cell.isXenon)
           {
             //Replenishing uranium
-            if(random == 1)
+            if(random <= 2)
             {
               cell.isUranium = true;
             }
             //Passive neutron generation
-            else if (random == 2)
+            else if (random == 3)
             { 
               entitysList.neutronList.Add(new Neutron(i * entitysList.cellSpacing, j * entitysList.cellSpacing, 3, (float)(Math.PI / 180) * rnd.Next(0, 360), true));
             }
