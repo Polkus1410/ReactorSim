@@ -116,7 +116,6 @@ namespace ReactorSim.ViewModels
         }
         else
         {
-          //Check if neutron is colidning with uranium or xenon
           float offsetNeutronX = (float)(neutron.x_pos - (entitysList.cellSpacing / 2));
           float offsetNeutronY = (float)(neutron.y_pos - (entitysList.cellSpacing / 2));
           int x = (int)Math.Round(offsetNeutronX / entitysList.cellSpacing);
@@ -124,13 +123,14 @@ namespace ReactorSim.ViewModels
           
           if(x >= 0 && x < 40 && y >= 0 && y < 25)
           {
-            double a = Math.Sqrt(Math.Pow((x * entitysList.cellSpacing - offsetNeutronX), 2) + Math.Pow((y * entitysList.cellSpacing - offsetNeutronY), 2));
-            if (a <= entitysList.cellSpacing / 4)
+
+            if (!neutron.isFast)
             {
-              //if the neutron is coliding with uranium
-              if (entitysList.cellMatrix[x, y].isUranium)
+              double a = Math.Sqrt(Math.Pow((x * entitysList.cellSpacing - offsetNeutronX), 2) + Math.Pow((y * entitysList.cellSpacing - offsetNeutronY), 2));
+              if (a <= (entitysList.cellSpacing / 4) + (entitysList.cellSpacing / 10))
               {
-                if (!neutron.isFast)
+                //if the neutron is coliding with uranium
+                if (entitysList.cellMatrix[x, y].isUranium)
                 {
                   entitysList.neutronList.RemoveAt(i);
                   entitysList.cellMatrix[x, y].isUranium = false;
@@ -141,16 +141,17 @@ namespace ReactorSim.ViewModels
                     entitysList.neutronList.Add(new Neutron(x * entitysList.cellSpacing + (entitysList.cellSpacing / 2), y * entitysList.cellSpacing + (entitysList.cellSpacing / 2), 3, (float)(Math.PI / 180) * rnd.Next(0, 360), true));
                   }
                 }
-              }
-              //if the neutron is coliding with xenon
-              else if(entitysList.cellMatrix[x, y].isXenon)
-              {
-                if (!neutron.isFast)
+                //if the neutron is coliding with xenon
+                else if (entitysList.cellMatrix[x, y].isXenon)
                 {
                   entitysList.neutronList.RemoveAt(i);
                   entitysList.cellMatrix[x, y].isXenon = false;
                 }
               }
+            }
+            else
+            {
+                            
             }
 
             //Water temperature

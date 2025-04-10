@@ -10,9 +10,9 @@ namespace ReactorSim.Views
     public void Draw(ICanvas canvas, RectF simBorder)
     {
       /*------------------DRAWING SIMULATION BORDERS------------------*/
-      canvas.StrokeColor = Colors.Aqua;
-      canvas.StrokeSize = 2;
-      canvas.DrawRectangle(EntitysList.simulationBorder.X, EntitysList.simulationBorder.Y, EntitysList.simulationBorder.Width, EntitysList.simulationBorder.Height);
+      //canvas.StrokeColor = Colors.Aqua;
+      //canvas.StrokeSize = 2;
+      //canvas.DrawRectangle(EntitysList.simulationBorder.X, EntitysList.simulationBorder.Y, EntitysList.simulationBorder.Width, EntitysList.simulationBorder.Height);
 
 
       /*------------------DRAWING CELLS------------------*/
@@ -53,7 +53,15 @@ namespace ReactorSim.Views
         }
       }
 
-
+      /*------------------DRAWING GRAPHITE RODS-------------------*/
+      for (int i = 0; i < 11; i++)
+      {
+        canvas.FillColor = Colors.White;
+        canvas.FillRectangle(i * 4 * EntitysList.cellSpacing - EntitysList.cellSpacing / 8, 0, EntitysList.cellSpacing / 4, EntitysList.cellSpacing * 25);
+        canvas.StrokeColor = Colors.Black;
+        canvas.StrokeSize = EntitysList.cellSpacing / 40;
+        canvas.DrawRectangle(i * 4 * EntitysList.cellSpacing - EntitysList.cellSpacing / 7, 0, EntitysList.cellSpacing / 4, EntitysList.cellSpacing * 25);
+      }
 
       /*------------------DRAWING NEUTRONS------------------*/
       for (int i = 0; i < EntitysList.neutronList.Count; i++)
