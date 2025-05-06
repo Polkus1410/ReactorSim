@@ -4,6 +4,7 @@
     {
         public float x_pos { get; set; }
         public float y_pos { get; set; }
+        public int sector { get; set; } // 0 - 9
         public float velocity { get; set; }
         public float direction { get; set; }
         public float distanceTravelled { get; set; }

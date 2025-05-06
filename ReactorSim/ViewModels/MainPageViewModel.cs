@@ -6,7 +6,7 @@ namespace ReactorSim.ViewModels
   [INotifyPropertyChanged]
   public partial class MainPageViewModel
   {
-    Random rnd = new Random();
+    readonly Random rnd = new();
     EntitysList entitysList;
     private RectF _simulationBorder;
 
@@ -67,7 +67,7 @@ namespace ReactorSim.ViewModels
       {
         for (int j = 0; j < 25; j++)
         {
-          if(rnd.Next(1,100) <= 30)
+          if(rnd.Next(1,100) <= 5)
           {
             entitysList.cellMatrix[i, j] = new ReactorSim.Models.Cell(true, false);
           }
@@ -84,7 +84,6 @@ namespace ReactorSim.ViewModels
 
 
     /*-----------------------------SIMULATION----------------------------*/
-    int neutronGenCountDown = 50;
     public void SimulationUpdate()
     {
       MoveNeutrons();
@@ -110,55 +109,59 @@ namespace ReactorSim.ViewModels
         Neutron neutron = entitysList.neutronList[i];
 
         //Check if neutron is in the simulation area
-        if (!_simulationBorder.Contains(neutron.x_pos, neutron.y_pos))
+        if (neutron != null)
         {
-          entitysList.neutronList.RemoveAt(i);
-        }
-        else
-        {
-          float offsetNeutronX = (float)(neutron.x_pos - (entitysList.cellSpacing / 2));
-          float offsetNeutronY = (float)(neutron.y_pos - (entitysList.cellSpacing / 2));
-          int x = (int)Math.Round(offsetNeutronX / entitysList.cellSpacing);
-          int y = (int)Math.Round(offsetNeutronY / entitysList.cellSpacing);
-          
-          if(x >= 0 && x < 40 && y >= 0 && y < 25)
+          if (!_simulationBorder.Contains(neutron.x_pos, neutron.y_pos))
           {
-
-            if (!neutron.isFast)
+            entitysList.neutronList.RemoveAt(i);
+          }
+          else
+          {
+            float offsetNeutronX = (float)(neutron.x_pos - (entitysList.cellSpacing / 2));
+            float offsetNeutronY = (float)(neutron.y_pos - (entitysList.cellSpacing / 2));
+            int x = (int)Math.Round(offsetNeutronX / entitysList.cellSpacing);
+            int y = (int)Math.Round(offsetNeutronY / entitysList.cellSpacing);
+          
+            if(x >= 0 && x < 40 && y >= 0 && y < 25)
             {
-              double a = Math.Sqrt(Math.Pow((x * entitysList.cellSpacing - offsetNeutronX), 2) + Math.Pow((y * entitysList.cellSpacing - offsetNeutronY), 2));
-              if (a <= (entitysList.cellSpacing / 4) + (entitysList.cellSpacing / 10))
-              {
-                //if the neutron is coliding with uranium
-                if (entitysList.cellMatrix[x, y].isUranium)
-                {
-                  entitysList.neutronList.RemoveAt(i);
-                  entitysList.cellMatrix[x, y].isUranium = false;
-                  entitysList.cellMatrix[x, y].xenonCountDown = 50;
 
-                  for (int j = 0; j < 3; j++)
+              if (!neutron.isFast)
+              {
+                double a = Math.Sqrt(Math.Pow((x * entitysList.cellSpacing - offsetNeutronX), 2) + Math.Pow((y * entitysList.cellSpacing - offsetNeutronY), 2));
+                if (a <= (entitysList.cellSpacing / 4) + (entitysList.cellSpacing / 10))
+                {
+                  //if the neutron is coliding with uranium
+                  if (entitysList.cellMatrix[x, y].isUranium)
                   {
-                    entitysList.neutronList.Add(new Neutron(x * entitysList.cellSpacing + (entitysList.cellSpacing / 2), y * entitysList.cellSpacing + (entitysList.cellSpacing / 2), 3, (float)(Math.PI / 180) * rnd.Next(0, 360), true));
+                    entitysList.neutronList.RemoveAt(i);
+                    entitysList.cellMatrix[x, y].isUranium = false;
+                    entitysList.cellMatrix[x, y].xenonCountDown = 50;
+
+                    for (int j = 0; j < 3; j++)
+                    {
+                      entitysList.neutronList.Add(new Neutron(x * entitysList.cellSpacing + (entitysList.cellSpacing / 2), y * entitysList.cellSpacing + (entitysList.cellSpacing / 2), 3, (float)(Math.PI / 180) * rnd.Next(0, 360), true));
+                    }
+                  }
+                  //if the neutron is coliding with xenon
+                  else if (entitysList.cellMatrix[x, y].isXenon)
+                  {
+                    entitysList.neutronList.RemoveAt(i);
+                    entitysList.cellMatrix[x, y].isXenon = false;
                   }
                 }
-                //if the neutron is coliding with xenon
-                else if (entitysList.cellMatrix[x, y].isXenon)
-                {
-                  entitysList.neutronList.RemoveAt(i);
-                  entitysList.cellMatrix[x, y].isXenon = false;
-                }
               }
-            }
-            else
-            {
-                            
-            }
+              else
+              {
+                //neutron coliding with graphite rods
 
-            //Water temperature
-            if (entitysList.cellMatrix[x, y].waterTemp < 100)
-            {
-              entitysList.cellMatrix[x, y].waterTemp += 0.5f;
-              neutron.distanceTravelled += neutron.velocity;
+              }
+
+              //Water temperature
+              if (entitysList.cellMatrix[x, y].waterTemp < 100)
+              {
+                entitysList.cellMatrix[x, y].waterTemp += 0.5f;
+                neutron.distanceTravelled += neutron.velocity;
+              }
             }
           }
         }
@@ -169,15 +172,18 @@ namespace ReactorSim.ViewModels
       for (int i = 0; i < entitysList.neutronList.Count; i++)
       {
         Neutron neutron = entitysList.neutronList[i];
-        if(neutron.isFast && neutron.distanceTravelled > 150)
+        if (neutron != null)
         {
-          neutron.distanceTravelled = 0;
-          neutron.velocity = 1.5f;
-          neutron.isFast = false;
-        }
-        else if(!neutron.isFast && neutron.distanceTravelled > 150)
-        {
-          entitysList.neutronList.RemoveAt(i);
+          if (neutron.isFast && neutron.distanceTravelled > 150)
+          {
+            neutron.distanceTravelled = 0;
+            neutron.velocity = 1.5f;
+            neutron.isFast = false;
+          }
+          else if (!neutron.isFast && neutron.distanceTravelled > 150)
+          {
+            entitysList.neutronList.RemoveAt(i);
+          }
         }
       }
     }
