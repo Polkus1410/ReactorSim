@@ -150,10 +150,24 @@ namespace ReactorSim.ViewModels
                   }
                 }
               }
+              //neutron coliding with graphite rods
               else
               {
-                //neutron coliding with graphite rods
-
+                float relativeX = neutron.x_pos % (entitysList.cellSpacing * 4);
+                if (entitysList.cellSpacing * 4 - relativeX < entitysList.cellSpacing * 9 / 40 || relativeX < entitysList.cellSpacing * 9 / 40)
+                {
+                  neutron.isFast = false;
+                  neutron.velocity = 1.5f;
+                  neutron.distanceTravelled = 0;
+                  if (neutron.direction > 0 && neutron.direction < Math.PI)
+                  {
+                    neutron.direction = (float)(Math.PI - neutron.direction);
+                  }
+                  else if (neutron.direction > Math.PI && neutron.direction < Math.PI * 2)
+                  {
+                    neutron.direction = (float)(3 * Math.PI - neutron.direction);
+                  }
+                }
               }
 
               //Water temperature
@@ -174,13 +188,13 @@ namespace ReactorSim.ViewModels
         Neutron neutron = entitysList.neutronList[i];
         if (neutron != null)
         {
-          if (neutron.isFast && neutron.distanceTravelled > 150)
+          if (neutron.isFast && neutron.distanceTravelled > 300)
           {
             neutron.distanceTravelled = 0;
             neutron.velocity = 1.5f;
             neutron.isFast = false;
           }
-          else if (!neutron.isFast && neutron.distanceTravelled > 150)
+          else if (!neutron.isFast && neutron.distanceTravelled > 300)
           {
             entitysList.neutronList.RemoveAt(i);
           }
