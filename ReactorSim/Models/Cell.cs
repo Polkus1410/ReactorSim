@@ -14,5 +14,7 @@
       waterTemp = 20;
       xenonCountDown = 0;
     }
+
+    public static int uraniumCount = 0;
   }
 }

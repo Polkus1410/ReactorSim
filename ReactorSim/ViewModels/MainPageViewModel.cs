@@ -70,6 +70,7 @@ namespace ReactorSim.ViewModels
           if(rnd.Next(1,100) <= 5)
           {
             entitysList.cellMatrix[i, j] = new ReactorSim.Models.Cell(true, false);
+            Models.Cell.uraniumCount++;
           }
           else
           {
@@ -136,6 +137,7 @@ namespace ReactorSim.ViewModels
                     entitysList.neutronList.RemoveAt(i);
                     entitysList.cellMatrix[x, y].isUranium = false;
                     entitysList.cellMatrix[x, y].xenonCountDown = 50;
+                    Models.Cell.uraniumCount--;
 
                     for (int j = 0; j < 3; j++)
                     {
@@ -224,9 +226,10 @@ namespace ReactorSim.ViewModels
           else if (!cell.isUranium && !cell.isXenon)
           {
             //Replenishing uranium
-            if(random <= 2)
+            if(random <= 200 - Models.Cell.uraniumCount)
             {
               cell.isUranium = true;
+              Models.Cell.uraniumCount++;
             }
             //Passive neutron generation
             else if (random == 3)
