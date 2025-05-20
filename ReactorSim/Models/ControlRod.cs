@@ -1,6 +1,6 @@
 ﻿namespace ReactorSim.Models
 {
-  internal class ControlRod
+  public class ControlRod
   {
     public float x_pos { get; set; }
     public float y_pos { get; set; }
