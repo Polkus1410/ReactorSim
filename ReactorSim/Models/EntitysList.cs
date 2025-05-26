@@ -7,6 +7,8 @@
 
     public List<Neutron> neutronList = new List<Neutron>();
 
+    public ControlRod[] controlRodsArray = new ControlRod[10];
+
     //temporary value to draw the borders of simulation area
     public RectF simulationBorder = new RectF(0, 0, 0, 0);
     public EntitysList() { }
