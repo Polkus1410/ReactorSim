@@ -99,8 +99,11 @@ namespace ReactorSim.ViewModels
       for (int i = 0; i < entitysList.neutronList.Count; i++)
       {
         Neutron neutron = entitysList.neutronList[i];
+        if (neutron != null)
+        {
         neutron.x_pos += (float)Math.Cos(neutron.direction) * neutron.velocity * entitysList.cellSpacing / 38;
         neutron.y_pos += (float)Math.Sin(neutron.direction) * neutron.velocity * entitysList.cellSpacing / 38;
+        }
       }
     }
     private void NeutronsColison()
@@ -109,9 +112,9 @@ namespace ReactorSim.ViewModels
       {
         Neutron neutron = entitysList.neutronList[i];
 
-        //Check if neutron is in the simulation area
         if (neutron != null)
         {
+          //Check if neutron is in the simulation area
           if (!_simulationBorder.Contains(neutron.x_pos, neutron.y_pos))
           {
             entitysList.neutronList.RemoveAt(i);
@@ -173,9 +176,9 @@ namespace ReactorSim.ViewModels
               }
 
               //Water temperature
+              entitysList.cellMatrix[x, y].waterTemp += 0.5f;
               if (entitysList.cellMatrix[x, y].waterTemp < 100)
               {
-                entitysList.cellMatrix[x, y].waterTemp += 0.5f;
                 neutron.distanceTravelled += neutron.velocity;
               }
             }
@@ -190,13 +193,13 @@ namespace ReactorSim.ViewModels
         Neutron neutron = entitysList.neutronList[i];
         if (neutron != null)
         {
-          if (neutron.isFast && neutron.distanceTravelled > 300)
+          if (neutron.isFast && neutron.distanceTravelled > 200)
           {
             neutron.distanceTravelled = 0;
             neutron.velocity = 1.5f;
             neutron.isFast = false;
           }
-          else if (!neutron.isFast && neutron.distanceTravelled > 300)
+          else if (!neutron.isFast && neutron.distanceTravelled > 200)
           {
             entitysList.neutronList.RemoveAt(i);
           }

@@ -67,18 +67,20 @@ namespace ReactorSim.Views
       for (int i = 0; i < EntitysList.neutronList.Count; i++)
       {
         Neutron neutron = EntitysList.neutronList[i];
-        canvas.StrokeColor = Colors.Black;
-        canvas.StrokeSize = 1;
-        if (neutron.isFast)
-        {
-          canvas.FillColor = Colors.White;
-          canvas.FillCircle(neutron.x_pos, neutron.y_pos, EntitysList.cellSpacing / 10);
-          canvas.DrawCircle(neutron.x_pos, neutron.y_pos, EntitysList.cellSpacing / 10);
-        }
-        else
-        {
-          canvas.FillColor = Colors.Black;
-          canvas.FillCircle(neutron.x_pos, neutron.y_pos, EntitysList.cellSpacing / 10);
+        if(neutron != null) {
+          canvas.StrokeColor = Colors.Black;
+          canvas.StrokeSize = 1;
+          if (neutron.isFast)
+          {
+            canvas.FillColor = Colors.White;
+            canvas.FillCircle(neutron.x_pos, neutron.y_pos, EntitysList.cellSpacing / 10);
+            canvas.DrawCircle(neutron.x_pos, neutron.y_pos, EntitysList.cellSpacing / 10);
+          }
+          else
+          {
+            canvas.FillColor = Colors.Black;
+            canvas.FillCircle(neutron.x_pos, neutron.y_pos, EntitysList.cellSpacing / 10);
+          }
         }
       }
     }
