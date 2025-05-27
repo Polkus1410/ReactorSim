@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using ReactorSim.Models;
 
 namespace ReactorSim.ViewModels
@@ -257,5 +258,8 @@ namespace ReactorSim.ViewModels
         entitysList.controlRodsArray[i].y_pos += entitysList.controlRodsArray[i].movement;
       }
     }
+
+    /*-----------------------------RELAY COMMANDS----------------------------*/
+
   }
 }

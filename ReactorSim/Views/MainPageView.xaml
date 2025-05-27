@@ -31,7 +31,7 @@
                   Grid.Row="0"
                   Grid.RowSpan="6"/>
 
-
+      
     <StackLayout Orientation="Horizontal"
                  Grid.Column="0"
                  Grid.Row="6">
@@ -43,6 +43,35 @@
         VerticalOptions="Center"/>
     </StackLayout>
 
+    <StackLayout Orientation="Vertical"
+                 Grid.Column="1"
+                 Grid.Row="0">
+      <StackLayout Orientation="Horizontal"
+                   HorizontalOptions="Center">
+        <Label Text="Automatic moderation"
+               TextColor="Black"
+               VerticalOptions="Center"
+               Margin="5"/>
+        <Switch Margin="5"/>
+      </StackLayout>
+      <StackLayout Orientation="Horizontal"
+                   HorizontalOptions="Center">
+          <Label Text="Target Power: "
+                 TextColor="Black"
+                 VerticalOptions="Center"
+                 Margin="5"/>
+          <Entry Keyboard="Numeric"
+                 TextColor="Black"/>
+      </StackLayout>
+      <StackLayout Orientation="Horizontal"
+                   HorizontalOptions="Center">
+        <Button Text="/\" Margin="10"/>
+        <Button Text="HOLD" Margin="10"/>
+        <Button Text="\/" Margin="10"/>
+        <Button Text="SCRUM" Background="Red" FontAttributes="Bold" Margin="15"/>
+      </StackLayout>
+    </StackLayout>
+      
     <StackLayout Orientation="Vertical"
                 HorizontalOptions="Center"
                 Grid.Column="1"
