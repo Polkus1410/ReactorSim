@@ -65,9 +65,9 @@
       </StackLayout>
       <StackLayout Orientation="Horizontal"
                    HorizontalOptions="Center">
-        <Button Text="/\" Margin="10"/>
-        <Button Text="HOLD" Margin="10"/>
-        <Button Text="\/" Margin="10"/>
+        <Button Text="/\" Margin="10" Command="{Binding RaiseControlRodsCommand}"/>
+        <Button Text="HOLD" Margin="10" Command="{Binding HoldControlRodsCommand}"/>
+        <Button Text="\/" Margin="10" Command="{Binding LowerControlRodsCommand}"/>
         <Button Text="SCRUM" Background="Red" FontAttributes="Bold" Margin="15"/>
       </StackLayout>
     </StackLayout>

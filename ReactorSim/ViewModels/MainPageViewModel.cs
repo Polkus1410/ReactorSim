@@ -260,6 +260,49 @@ namespace ReactorSim.ViewModels
     }
 
     /*-----------------------------RELAY COMMANDS----------------------------*/
-
+    [RelayCommand]
+    private void RaiseControlRods()
+    {
+      if(entitysList.controlRodsArray[1].y_pos != -entitysList.cellSpacing*31)
+      {
+        for(int i = 0; i < entitysList.controlRodsArray.Length; i += 2)
+        {
+          entitysList.controlRodsArray[i].movement = -entitysList.cellSpacing / 30;
+        }
+      }
+      else if(entitysList.controlRodsArray[0].y_pos != -entitysList.cellSpacing * 31)
+      {
+        for (int i = 1; i < entitysList.controlRodsArray.Length; i += 2)
+        {
+          entitysList.controlRodsArray[i].movement = -entitysList.cellSpacing / 30;
+        }
+      }
+    }
+    [RelayCommand]
+    private void LowerControlRods()
+    {
+      if(entitysList.controlRodsArray[0].y_pos != 0)
+      {
+        for(int i = 0; i < entitysList.controlRodsArray.Length; i += 2)
+        {
+          entitysList.controlRodsArray[i].movement = entitysList.cellSpacing / 30;
+        }
+      }
+      else if(entitysList.controlRodsArray[1].y_pos != 0)
+      {
+        for (int i = 1; i < entitysList.controlRodsArray.Length; i += 2)
+        {
+          entitysList.controlRodsArray[i].movement = entitysList.cellSpacing / 30;
+        }
+      }
+    }
+    [RelayCommand]
+    private void HoldControlRods()
+    {
+      for (int i = 0; i < entitysList.controlRodsArray.Length; i++)
+      {
+        entitysList.controlRodsArray[i].movement = 0;
+      }
+    }
   }
 }
