@@ -57,10 +57,10 @@ namespace ReactorSim.Views
       for (int i = 0; i < 11; i++)
       {
         canvas.FillColor = Colors.White;
-        canvas.FillRectangle((i * 4 - (1 / 8)) * EntitysList.cellSpacing, 0, EntitysList.cellSpacing / 4, EntitysList.cellSpacing * 25);
+        canvas.FillRectangle((i * 4 - 0.125f) * EntitysList.cellSpacing, 0, EntitysList.cellSpacing / 4, EntitysList.cellSpacing * 25);
         canvas.StrokeColor = Colors.Black;
         canvas.StrokeSize = EntitysList.cellSpacing / 40;
-        canvas.DrawRectangle((i * 4 - (1 / 7)) * EntitysList.cellSpacing, 0, EntitysList.cellSpacing / 4, EntitysList.cellSpacing * 25);
+        canvas.DrawRectangle((i * 4 - 0.125f) * EntitysList.cellSpacing, 0, EntitysList.cellSpacing / 4, EntitysList.cellSpacing * 25);
       }
 
       /*------------------DRAWING CONTROL RODS------------------*/
