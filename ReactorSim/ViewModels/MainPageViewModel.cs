@@ -22,6 +22,7 @@ namespace ReactorSim.ViewModels
     {
       GetWindowSize();
       GenerateCells();
+      GenerateControlRods();
       entitysList.simulationBorder = _simulationBorder;
     }
     private async void GetWindowSize()
@@ -73,6 +74,14 @@ namespace ReactorSim.ViewModels
 
       entitysList.cellSpacing = cellSpacing;
     }
+    private void GenerateControlRods()
+    {
+      for (int i = 0; i < entitysList.controlRodsArray.Length; i++)
+      {
+        ControlRod controlRod = new ControlRod((2 + i*4) * entitysList.cellSpacing);
+        entitysList.controlRodsArray[i] = controlRod;
+      }
+    }
 
 
 
@@ -85,6 +94,7 @@ namespace ReactorSim.ViewModels
       NeutronCount = entitysList.neutronList.Count;
       
       CellUpdate();
+      MoveControlRods();
     }
     private void MoveNeutrons()
     {
@@ -238,6 +248,13 @@ namespace ReactorSim.ViewModels
             cell.waterTemp -= 0.2f;
           }
         }
+      }
+    }
+    private void MoveControlRods()
+    {
+      for (int i = 0; i < entitysList.controlRodsArray.Length; i++)
+      {
+        entitysList.controlRodsArray[i].y_pos += entitysList.controlRodsArray[i].movement;
       }
     }
   }
