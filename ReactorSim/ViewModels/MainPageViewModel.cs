@@ -78,7 +78,7 @@ namespace ReactorSim.ViewModels
     {
       for (int i = 0; i < entitysList.controlRodsArray.Length; i++)
       {
-        ControlRod controlRod = new ControlRod((2 + i*4) * entitysList.cellSpacing);
+        ControlRod controlRod = new ControlRod();
         entitysList.controlRodsArray[i] = controlRod;
       }
     }
