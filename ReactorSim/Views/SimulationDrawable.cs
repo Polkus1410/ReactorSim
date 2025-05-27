@@ -66,8 +66,19 @@ namespace ReactorSim.Views
       /*------------------DRAWING CONTROL RODS------------------*/
       for(int i = 0; i < EntitysList.controlRodsArray.Length; i++) {
         ControlRod controlRod = EntitysList.controlRodsArray[i];
+        float x_pos = (i * 4 - (1 / 8) + 2) * EntitysList.cellSpacing;
+
         canvas.FillColor = Colors.Black;
-        canvas.FillRectangle((i * 4 - (1 / 8) + 2) * EntitysList.cellSpacing, controlRod.y_pos, EntitysList.cellSpacing / 4, EntitysList.cellSpacing * 25);
+        canvas.FillRectangle(x_pos, controlRod.y_pos, EntitysList.cellSpacing / 4, EntitysList.cellSpacing * 25);
+        canvas.StrokeColor = Colors.Black;
+        canvas.StrokeSize = EntitysList.cellSpacing / 10;
+        canvas.DrawLine(x_pos + (EntitysList.cellSpacing / 8), controlRod.y_pos + (EntitysList.cellSpacing * 25), x_pos + (EntitysList.cellSpacing / 8), controlRod.y_pos + (EntitysList.cellSpacing * 26));
+
+        canvas.FillColor = Colors.White;
+        canvas.FillRectangle(x_pos, controlRod.y_pos + (EntitysList.cellSpacing * 26), EntitysList.cellSpacing / 4, EntitysList.cellSpacing * 5);
+        canvas.StrokeColor = Colors.Black;
+        canvas.StrokeSize = EntitysList.cellSpacing / 40;
+        canvas.DrawRectangle(x_pos, controlRod.y_pos + (EntitysList.cellSpacing * 26), EntitysList.cellSpacing / 4, EntitysList.cellSpacing * 5);
       }
 
       /*------------------DRAWING NEUTRONS------------------*/
