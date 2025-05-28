@@ -232,7 +232,7 @@ namespace ReactorSim.ViewModels
           else if (!cell.isUranium && !cell.isXenon)
           {
             //Replenishing uranium
-            if(random <= 200 - Models.Cell.uraniumCount)
+            if(random <= 100 - Models.Cell.uraniumCount)
             {
               cell.isUranium = true;
               Models.Cell.uraniumCount++;
@@ -256,6 +256,63 @@ namespace ReactorSim.ViewModels
       for (int i = 0; i < entitysList.controlRodsArray.Length; i++)
       {
         entitysList.controlRodsArray[i].y_pos += entitysList.controlRodsArray[i].movement;
+      }
+
+      if (entitysList.controlRodsArray[0].movement < 0 || entitysList.controlRodsArray[1].movement < 0)
+      {
+        if(entitysList.controlRodsArray[0].y_pos < -entitysList.cellSpacing * 31)
+        {
+          for(int i = 0; i < entitysList.controlRodsArray.Length; i++)
+          {
+            if(i % 2 == 0)
+            {
+              entitysList.controlRodsArray[i].y_pos = -entitysList.cellSpacing * 31;
+              entitysList.controlRodsArray[i].movement = 0;
+            }
+            else
+            {
+              entitysList.controlRodsArray[i].movement = -entitysList.cellSpacing / 30;
+            }
+          }
+        }
+        else if(entitysList.controlRodsArray[1].y_pos < -entitysList.cellSpacing * 31)
+        {
+          for (int i = 1; i < entitysList.controlRodsArray.Length; i+=2)
+          {
+            entitysList.controlRodsArray[i].y_pos = -entitysList.cellSpacing * 31;
+            entitysList.controlRodsArray[i].movement = 0;
+          }
+        }
+      }
+      else if(entitysList.controlRodsArray[0].movement > 0 || entitysList.controlRodsArray[1].movement > 0)
+      {
+        if(entitysList.controlRodsArray[1].y_pos > 0)
+        {
+          for(int i = 0; i < entitysList.controlRodsArray.Length; i++)
+          {
+            if(i % 2 == 1)
+            {
+              entitysList.controlRodsArray[i].y_pos = 0;
+              entitysList.controlRodsArray[i].movement = 0;
+            }
+            else
+            {
+              entitysList.controlRodsArray[i].movement = entitysList.cellSpacing / 30;
+            }
+          }
+        }
+        else if(entitysList.controlRodsArray[0].y_pos > 0)
+        {
+          for (int i = 0; i < entitysList.controlRodsArray.Length; i+=2)
+          {
+            entitysList.controlRodsArray[i].y_pos = 0;
+            entitysList.controlRodsArray[i].movement = 0;
+          }
+        }
+      }
+      else if(entitysList.controlRodsArray[0].y_pos > 0)
+      {
+        entitysList.controlRodsArray[0].y_pos = 0;
       }
     }
 
@@ -281,16 +338,16 @@ namespace ReactorSim.ViewModels
     [RelayCommand]
     private void LowerControlRods()
     {
-      if(entitysList.controlRodsArray[0].y_pos != 0)
+      if(entitysList.controlRodsArray[1].y_pos != 0)
       {
-        for(int i = 0; i < entitysList.controlRodsArray.Length; i += 2)
+        for(int i = 1; i < entitysList.controlRodsArray.Length; i += 2)
         {
           entitysList.controlRodsArray[i].movement = entitysList.cellSpacing / 30;
         }
       }
-      else if(entitysList.controlRodsArray[1].y_pos != 0)
+      else if(entitysList.controlRodsArray[0].y_pos != 0)
       {
-        for (int i = 1; i < entitysList.controlRodsArray.Length; i += 2)
+        for (int i = 0; i < entitysList.controlRodsArray.Length; i += 2)
         {
           entitysList.controlRodsArray[i].movement = entitysList.cellSpacing / 30;
         }

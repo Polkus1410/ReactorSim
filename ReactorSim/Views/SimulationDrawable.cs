@@ -66,7 +66,7 @@ namespace ReactorSim.Views
       /*------------------DRAWING CONTROL RODS------------------*/
       for(int i = 0; i < EntitysList.controlRodsArray.Length; i++) {
         ControlRod controlRod = EntitysList.controlRodsArray[i];
-        float x_pos = (i * 4 - (1 / 8) + 2) * EntitysList.cellSpacing;
+        float x_pos = (i * 4 - 0.125f + 2) * EntitysList.cellSpacing;
 
         canvas.FillColor = Colors.Black;
         canvas.FillRectangle(x_pos, controlRod.y_pos, EntitysList.cellSpacing / 4, EntitysList.cellSpacing * 25);
